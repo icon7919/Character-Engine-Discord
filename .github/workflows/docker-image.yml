@@ -2,9 +2,9 @@ name: .NET 10 Build and Test
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["master"]
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
 
 jobs:
   build:
@@ -29,3 +29,19 @@ jobs:
 
     - name: Run Tests
       run: dotnet test "src/CharacterEngineDiscord.slnx" --no-build --verbosity normal
+
+    # --- NEW: Upload the built Discord Bot files ---
+    - name: Upload Discord Bot Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: CharacterEngine-DiscordBot
+        path: src/CharacterEngine.DiscordBot/bin/Debug/net10.0/
+        if-no-files-found: error
+
+    # --- NEW: Upload the built Server backend files ---
+    - name: Upload Backend Server Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: CharacterEngine-Server
+        path: src/CharacterEngine.Server/bin/Debug/net10.0/
+        if-no-files-found: error
